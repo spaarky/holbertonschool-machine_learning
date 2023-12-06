@@ -18,6 +18,7 @@ plt.ylim(0, 80)
 
 plt.ylabel('Quantity of Fruit')
 plt.xticks(np.arange(1, 4, 1), ('Farrah', 'Fred', 'Felicia'))
+plt.title('Number of Fruit per Person')
 plt.legend((apples[0], bananas[0], oranges[0], peaches[0]), ('apples', 'bananas', 'oranges', 'peaches'))
 
 plt.show()
