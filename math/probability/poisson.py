@@ -7,6 +7,7 @@ Representing poisson distribution
 class Poisson:
     """Class Poisson Distribution"""
     e = 2.7182818285
+
     def __init__(self, data=None, lambtha=1.):
         """Class contructor"""
         if data is None:
@@ -22,7 +23,7 @@ class Poisson:
             self.lambtha = sum(data) / len(data)
 
     def pmf(self, k):
-        """PMF"""
+        """Probability Mass Function for Poisson"""
         if type(k) is not int:
             k = int(k)
         if k < 0:
@@ -36,7 +37,7 @@ class Poisson:
         return pmf
 
     def cdf(self, k):
-        """CDF"""
+        """Cummulative Distribution Function for Poisson"""
         if type(k) is not int:
             k = int(k)
         if k < 0:
