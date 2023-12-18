@@ -26,24 +26,24 @@ class Normal:
             self.stddev = (self.stddev / len(data)) ** (1 / 2)
 
     def z_score(self, x):
-        """"""
+        """z-score of a given x-score"""
         z_score = (x - self.mean) / self.stddev
         return z_score
 
     def x_value(self, z):
-        """"""
+        """x-score of a given z-score"""
         x_value = (z * self.stddev) + self.mean
         return x_value
 
     def pdf(self, x):
-        """"""
+        """Probability Mass Function for Exponential"""
         exponent = (- 1 / 2) * (((x - self.mean) / self.stddev) ** 2)
         coeficient = 1 / (self.stddev * (2 * Normal.pi) ** (1 / 2))
         pdf = coeficient * Normal.e ** exponent
         return pdf
 
     def cdf(self, x):
-        """"""
+        """Cummulative Distribution Function for Exponential"""
         val = (x - self.mean) / (self.stddev * (2 ** (1 / 2)))
         erf1 = (2 / Normal.pi ** (1 / 2))
         erf2 = (val - (val ** 3) / 3 + (val ** 5) / 10 - (val ** 7) / 42 + (val ** 9) / 216)
