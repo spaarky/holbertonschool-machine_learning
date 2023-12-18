@@ -13,7 +13,7 @@ class Normal:
         """Class constructor"""
         if data is None:
             if stddev <= 0:
-                raise ValueError('stddev must be positive value')
+                raise ValueError('stddev must be a positive value')
             self.mean = mean
             self.stddev = stddev
         else:
