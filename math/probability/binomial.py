@@ -19,7 +19,7 @@ class Binomial:
             if type(data) is not list:
                 raise TypeError('data must be a list')
             if len(data) < 2:
-                raise ValueError('data must contain mulitple values')
+                raise ValueError('data must contain multiple values')
             mean = sum(data) / len(data)
             var = sum(map(lambda i: (i - mean) ** 2, data)) / len(data)
             self.p = 1 - (var / mean)
