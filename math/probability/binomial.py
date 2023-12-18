@@ -11,7 +11,7 @@ class Binomial:
         if data is None:
             if n < 1:
                 raise ValueError('n must be a positive value')
-            if p >= 0 or p <= 1:
+            if p >= 1 or p <= 0:
                 raise ValueError('p must be greater that 0 and less than 1')
             self.p = float(p)
             self.n = int(n)
