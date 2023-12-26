@@ -36,7 +36,7 @@ class Neuron:
         Returns:
             integer: cost
         """
-        cost = Y * np.log(A) - (1 - Y) * np.log(1.0000001 - A)
+        cost = Y * np.log(A) + (1 - Y) * np.log(1.0000001 - A)
         cost = np.sum(cost)
         cost = - cost / A.shape[1]
         return cost
