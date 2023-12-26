@@ -52,11 +52,10 @@ class Neuron:
             raise TypeError('alpha must be a float')
         if alpha <= 0:
             raise ValueError('alpha must be positive')
-        if verbose is True and iterations % step == 0:
-            if type(step) is not int:
-                raise TypeError('step must be an integer')
-            if step < 1 or step > iterations:
-                raise ValueError('step must be positive and <= iterations')
+        if type(step) is not int:
+            raise TypeError('step must be an integer')
+        if int(step) < 1 or int(step) > iterations:
+            raise ValueError('step must be positive and <= iterations')
         cost = []
         for i in range(iterations + 1):
             activations = self.forward_prop(X)
