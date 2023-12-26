@@ -5,10 +5,15 @@ import numpy as np
 
 
 class NeuralNetwork:
-    """Class that define a neural network with one hidden layer performing binary classification
-    """
+    """Class that define a neural network with one hidden layer
+       performing binary classification"""
     def __init__(self, nx, nodes):
+        """Class contructor
 
+        Args:
+            nx (integer): number of input features
+            nodes (integer): number of nodes in the hidden layer
+        """
 
         if type(nx) is not int:
             raise TypeError('nx must be an integer')
