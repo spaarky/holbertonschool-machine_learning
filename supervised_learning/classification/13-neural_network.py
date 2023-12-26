@@ -44,7 +44,7 @@ class NeuralNetwork:
             alpha (float, optional): learning rate. Defaults to 0.05.
         """
 
-        # Gradient descend for hidden layer
+        # Gradient descend  hidden layer
         dz2 = A2 - Y
         dw2 = np.matmul(A1, dz2.T) / A1.shape[1]
         db2 = np.sum(dz2, axis=1, keepdims=True) / A2.shape[1]
@@ -52,7 +52,7 @@ class NeuralNetwork:
         # Derivative of sigmoid function
         da1 = A1 * (1 - A1)
 
-        # Gradient descent for output layer
+        # Gradient descent  output layer
         dz1 = np.matmul(self.__W2.T, dz2)
         dz1 = dz1 * da1
         dw1 = dw1 = np.matmul(X, dz1.T) / A1.shape[1]
