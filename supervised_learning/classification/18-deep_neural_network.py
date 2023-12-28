@@ -42,6 +42,7 @@ class DeepNeuralNetwork:
 
     def forward_prop(self, X):
         """Calculates forward propagation of the neural network
+        using sigmoid activationn function
 
         Args:
             X (numpy.ndarray): shape(nx, m), contains the input data
@@ -61,10 +62,9 @@ class DeepNeuralNetwork:
             key_cache = 'A' + str(i + 1)  # key to set the network output
             key_cache2 = 'A' + str(i)  # key to get the input
 
-            # store activations in cache
-            output_x = np.matmul(self.__weights[key_w],
-                                 self.__cache[key_cache2])
-            + self.__weights[key_b]
+            # calculate and store activations in cache
+            output_x = np.matmul(self.__weights[key_w], self.__cache[
+                key_cache2]) + self.__weights[key_b]
             output_a = 1 / (1 + np.exp(-output_x))
             self.__cache[key_cache] = output_a
 
