@@ -45,10 +45,12 @@ class DeepNeuralNetwork:
 
         Args:
             X (numpy.ndarrah): shape(nx, m), contains the input data
-            Y (numpy.ndarray): shape(1, m), contains the correct label for the input data
+            Y (numpy.ndarray): shape(1, m), contains the correct label
+                for the input data
 
         Returns:
-            prediction (numpy.ndarray): shape(1, m), containing the predicted labels for each example
+            prediction (numpy.ndarray): shape(1, m), containing the predicted
+                labels for each example
             cost (flaot): cost of the network
         """
 
