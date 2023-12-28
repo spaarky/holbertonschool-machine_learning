@@ -65,7 +65,7 @@ class DeepNeuralNetwork:
             output_x = np.matmul(self.__weights[key_w],
                                  self.__cache[key_cache2])
             + self.__weights[key_b]
-            output_a = 1 / (1 - np.exp(-output_x))
+            output_a = 1 / (1 + np.exp(-output_x))
             self.__cache[key_cache] = output_a
 
         return output_a, self.__cache
