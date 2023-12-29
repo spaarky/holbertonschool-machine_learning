@@ -47,8 +47,10 @@ class DeepNeuralNetwork:
 
         Args:
             X (numpy.ndarray): shape(nx, m), contains the input data
-            Y (numpy.ndarray): shape(1, m), contains the correct label for the input data
-            iterations (int, optional): number of iterations to train over. Defaults to 5000.
+            Y (numpy.ndarray): shape(1, m), contains the correct
+                label for the input data
+            iterations (int, optional): number of iterations to
+                train over. Defaults to 5000.
             alpha (float, optional): learning rate. Defaults to 0.05.
 
         Returns:
