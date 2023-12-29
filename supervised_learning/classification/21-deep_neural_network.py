@@ -94,7 +94,7 @@ class DeepNeuralNetwork:
 
         # get activation from forward propagation
         A, _ = self.forward_prop(X)
-        # makes the prediction for the output
+        # makes the prediction of the output
         # 1 when activation is greater or equal to .5 else 0
         prediction = np.where(A >= 0.5, 1, 0)
         cost = self.cost(Y, A)
