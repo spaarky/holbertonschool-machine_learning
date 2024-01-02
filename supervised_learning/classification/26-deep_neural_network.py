@@ -44,20 +44,28 @@ class DeepNeuralNetwork:
             weights[key_b] = np.zeros((layers[i], 1))
         self.__weights = weights
 
-    def train(self, X, Y, iterations=5000, alpha=0.05, verbose=True, graph=True, step=100):
-        """Train the deep neural network by updating the private attribute weights and cache
+    def train(self, X, Y, iterations=5000, alpha=0.05,
+              verbose=True, graph=True, step=100):
+        """Train the deep neural network by updating the private
+            attribute weights and cache
 
         Args:
             X (numpy.ndarray): shape(nx, m), containing the input data
-            Y (numpy.ndarray): shape(1, m), containing the correct label for the input data
-            iterations (int, optional): number of iterations to train over. Defaults to 5000.
+            Y (numpy.ndarray): shape(1, m), containing the correct label for
+                the input data
+            iterations (int, optional): number of iterations to train over.
+                Defaults to 5000.
             alpha (float, optional): learning rate. Defaults to 0.05.
-            verbose (bool, optional): defines if whether or not to print information about the training. Defaults to True.
-            graph (bool, optional): defines whether or not to print information about the training has completed. Defaults to True.
-            step (int, optional): number of iteration between the print of information when verbose is true. Defaults to 100.
+            verbose (bool, optional): defines if whether or not to print
+                information about the training. Defaults to True.
+            graph (bool, optional): defines whether or not to print information
+                about the training has completed. Defaults to True.
+            step (int, optional): number of iteration between the print of
+                information when verbose is true. Defaults to 100.
 
         Returns:
-            self.evaluate: evaluation of training data after iterations of training has occured
+            self.evaluate: evaluation of training data after iterations
+                of training has occured
         """
 
         if type(iterations) is not int:
@@ -119,8 +127,6 @@ class DeepNeuralNetwork:
                 return pickle.load(f)
         except FileNotFoundError:
             return None
-
-
 
     def gradient_descent(self, Y, cache, alpha=0.05):
         """Calculates one pass of gradient descent on the neural network
