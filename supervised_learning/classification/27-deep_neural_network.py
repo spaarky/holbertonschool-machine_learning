@@ -25,7 +25,7 @@ class DeepNeuralNetwork:
             raise TypeError("layers must be a list of positive integers")
         self.__L = len(layers)  # Number of layers
         self.__cache = {}  # holds all intermediary values
-        weights = {}  # holds all weights and bias
+        weights = {}
         for i in range(len(layers)):
             if layers[i] < 1:
                 raise TypeError("layers must be a list of positive integers")
@@ -42,7 +42,7 @@ class DeepNeuralNetwork:
                     i-1]) * np.sqrt(2 / layers[i-1])
             # bias initialized as a nul matrix
             weights[key_b] = np.zeros((layers[i], 1))
-        self.__weights = weights
+        self.__weights = weights  # holds all weights and bias
 
     def train(self, X, Y, iterations=5000, alpha=0.05,
               verbose=True, graph=True, step=100):
@@ -82,13 +82,21 @@ class DeepNeuralNetwork:
             if int(step) < 1 or int(step) > iterations:
                 raise ValueError('must be positive and <= iterations')
 
-        cost = []
+        g_iteration = []
+        g_cost = []
+
         for i in range(iterations + 1):
-            A, cache = self.forward_prop(X)
-            self.gradient_descent(Y, cache, alpha)
-            cost.append(self.cost(Y, A))
-            if verbose is True and i % step == 0:
-                print("Cost after {} iterations: {}".format(i, cost[i]))
+            output, cache = self.forward_prop(X)
+            cost = self.cost(Y, output)
+
+            if step and (i % step == 0 or i == iterations):
+                if verbose is True:
+                    print("Cost after {} iterations: {}".format(i, cost))
+                g_iteration.append(i)
+                g_cost.append(cost)
+
+            if i < iterations:
+                self.gradient_descent(Y, cache, alpha)
 
         if graph is True:
             plt.plot(np.arange(0, iterations + 1), cost)
@@ -190,8 +198,7 @@ class DeepNeuralNetwork:
             cross-entropy loss function
 
         Args:
-            Y (numpy.ndarray): shape(1, m), contains the correct
-                label for the input data
+            Y (numpy.ndarray): shape(classes, m), one-hot data
             A (numpy.ndarray): shape(1, m), contains the activated
                 output of the neuron for each example
 
