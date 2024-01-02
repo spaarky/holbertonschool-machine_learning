@@ -15,7 +15,8 @@ class DeepNeuralNetwork:
         Args:
             nx (integer): number of input features
             layers (list): represent the number of nodes in each hidden layer
-            activation (str, optional): activation used in the hidden layer. Defaults to 'sig'.
+            activation (str, optional): activation used in the hidden layer.
+                Defaults to 'sig'.
         """
 
         if type(nx) is not int:
@@ -253,7 +254,8 @@ class DeepNeuralNetwork:
                 if self.__activation == 'sig':
                     output_a = 1 / (1 + np.exp(-output_x))
                 elif self.__activation == 'tanh':
-                    output_a = (np.exp(output_x) - np.exp(-output_x)) / (np.exp(output_x) + np.exp(-output_x))
+                    output_a = (np.exp(output_x) - np.exp(-output_x)) / (
+                        np.exp(output_x) + np.exp(-output_x))
             self.__cache[key_cache] = output_a
         return output_a, self.__cache
 
