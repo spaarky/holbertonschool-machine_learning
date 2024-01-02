@@ -30,7 +30,7 @@ class DeepNeuralNetwork:
         self.__cache = {}  # holds all intermediary values
         weights = {}
         if activation != 'sig' or activation != 'tanh':
-            raise ValueError("activation must be 'sig' or 'tanh'")
+            raise ValueError("activation must be \'sig\' or \'tanh\'")
         self.__activation = activation
         for i in range(len(layers)):
             if layers[i] < 1:
