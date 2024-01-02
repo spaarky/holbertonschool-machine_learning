@@ -14,5 +14,10 @@ def one_hot_decode(one_hot):
         labels (numpy.ndarray): shape(m, ), containing the numeric label for each examples
     """
 
+    if type(one_hot) is not np.ndarray:
+        return None
+    if len(one_hot) == 0 or len(one_hot.shape) is not 2:
+        return None
+
     labels = np.argmax(one_hot, axis=0)
     return labels
