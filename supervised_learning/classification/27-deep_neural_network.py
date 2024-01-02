@@ -200,8 +200,8 @@ class DeepNeuralNetwork:
         """
 
         cost = Y * np.log(A)
-        cost = np.sum(cost)
-        cost = - cost / A.shape[1]
+        cost = - np.sum(cost)
+        cost = cost / A.shape[1]
         return cost
 
     def forward_prop(self, X):
