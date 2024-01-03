@@ -9,7 +9,8 @@ calculate_loss = __import__('4-calculate_loss').calculate_loss
 create_train_op = __import__('5-create_train_op').create_train_op
 
 
-def train(X_train, Y_train, X_valid, Y_valid, layer_sizes, activations, alpha, iterations, save_path="/tmp/model.ckpt"):
+def train(X_train, Y_train, X_valid, Y_valid, layer_sizes, activations,
+          alpha, iterations, save_path="/tmp/model.ckpt"):
     """Function that builds, trains, and saves a neural network classifier
 
     Args:
@@ -17,11 +18,14 @@ def train(X_train, Y_train, X_valid, Y_valid, layer_sizes, activations, alpha, i
         Y_train (numpy.ndarray): contains the training labels
         X_valid (numpy.ndarray): contains the validation input data
         Y_valid (numpy.ndarray): contains the validationa labels
-        layer_sizes (list): containsthe number of nodes in each layer of the network
-        activations (list): contains the activation functions in each layer of the network
+        layer_sizes (list): containsthe number of nodes in each
+            layer of the network
+        activations (list): contains the activation functions in
+            each layer of the network
         alpha (float): learning rate
         iterations (int): number of iterations to train over
-        save_path (str, optional): designates where to save the model. Defaults to "/tmp/model.ckpt".
+        save_path (str, optional): designates where to save the model.
+            Defaults to "/tmp/model.ckpt".
     """
     x, y = create_placeholders(X_train.shape[1], Y_train.shape[1])
     tf.add_to_collection('x', x)
@@ -47,10 +51,12 @@ def train(X_train, Y_train, X_valid, Y_valid, layer_sizes, activations, alpha, i
         for i in range(iterations + 1):
             # Cost and accuracy for training sets
             cost_train = ses.run(loss, feed_dict={x: X_train, y: Y_train})
-            accuracy_train = ses.run(accuracy, feed_dict={x: X_train, y:Y_train})
+            accuracy_train = ses.run(accuracy,
+                                     feed_dict={x: X_train, y: Y_train})
             # Cost and accuracy for validation sets
             cost_val = ses.run(loss, feed_dict={x: X_valid, y: Y_valid})
-            accuracy_val = ses.run(accuracy, feed_dict={x: X_valid, y:Y_valid})
+            accuracy_val = ses.run(accuracy,
+                                   feed_dict={x: X_valid, y: Y_valid})
             if i % 100 == 0 or i == iterations:
                 print('After {} iterations:'.format(i))
                 print('\tTraining Cost: {}'.format(cost_train))
@@ -58,5 +64,5 @@ def train(X_train, Y_train, X_valid, Y_valid, layer_sizes, activations, alpha, i
                 print('\tValidation Cost: {}'.format(cost_val))
                 print('\tValidation Accuracy: {}'.format(accuracy_val))
             if i < iterations:
-                ses.run(train, feed_dict={x: X_train, y:Y_train})
+                ses.run(train, feed_dict={x: X_train, y: Y_train})
         return saver.save(ses, save_path)
