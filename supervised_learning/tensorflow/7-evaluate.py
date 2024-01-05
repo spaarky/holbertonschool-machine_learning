@@ -3,6 +3,7 @@
 """
 import tensorflow.compat.v1 as tf
 
+
 def evaluate(X, Y, save_path):
     """Function that evaluates the output of a neural network
 
@@ -25,4 +26,4 @@ def evaluate(X, Y, save_path):
         accuracy_eval = ses.run(accuracy, feed_dict={x: X, y: Y})
         loss_eval = ses.run(loss, feed_dict={x: X, y: Y})
 
-        return y_eval,accuracy_eval, loss_eval
+        return y_eval, accuracy_eval, loss_eval
