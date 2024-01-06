@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""summary
+"""Summary
 """
 import numpy as np
 
@@ -16,7 +16,9 @@ def one_hot_encode(Y, classes):
     """
 
     try:
+        # create a matrix of 0s with classes number of columns
         encode = np.zeros((classes, Y.shape[0]))
+        # adds 1s depending on the class in Y
         encode[Y, np.arange(Y.shape[0])] = 1
         return encode
     except Exception:

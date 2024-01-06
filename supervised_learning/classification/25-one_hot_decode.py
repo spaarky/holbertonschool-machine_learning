@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""summary
+"""Summary
 """
 import numpy as np
 
@@ -15,6 +15,7 @@ def one_hot_decode(one_hot):
             label for each examples
     """
 
+    # checks for value or type errors
     if type(one_hot) is not np.ndarray:
         return None
     if len(one_hot) == 0 or len(one_hot.shape) is not 2:
