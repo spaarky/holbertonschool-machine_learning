@@ -7,11 +7,11 @@
 ### Linear Algebra
 
 Versions :
-  python==3.5 <b>
-  pip==19.1 <b>
-  numpy==1.15 <b>
-  scipy==1.3 <b>
-  pycodestyle==2.5 <b>
+  python==3.5 <br>
+  pip==19.1 <br>
+  numpy==1.15 <br>
+  scipy==1.3 <br>
+  pycodestyle==2.5 <br>
 
 | Topics |
 | ------- |
@@ -32,10 +32,10 @@ Versions :
 ### Plotting
 
 Versions :
-  python==3.5 <b>
-  matplotlib==3.0 <b>
-  Pillow <b>
-  python3-tk <b>
+  python==3.5 <br>
+  matplotlib==3.0 <br>
+  Pillow <br>
+  python3-tk <br>
 
 | Topics |
 | ------ |
