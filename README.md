@@ -7,11 +7,11 @@
 ### Linear Algebra
 
 Versions :
-  python==3.5
-  pip==19.1
-  numpy==1.15
-  scipy==1.3
-  pycodestyle==2.5
+  python==3.5 <b>
+  pip==19.1 <b>
+  numpy==1.15 <b>
+  scipy==1.3 <b>
+  pycodestyle==2.5 <b>
 
 | Topics |
 | ------- |
@@ -29,7 +29,26 @@ Versions :
 | ------- |
 | Numpy |
 
-### 
+### Plotting
+
+Versions :
+  python==3.5 <b>
+  matplotlib==3.0 <b>
+  Pillow <b>
+  python3-tk <b>
+
+| Topics |
+| ------ |
+| Plots |
+| Types of plots |
+| Data plotting |
+| Labels |
+| Scales |
+| Multi Plotting |
+
+| Libraries |
+| --------- |
+| Matplotlib |
 
 ## Supervised Learning
 
