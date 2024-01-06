@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""_summary_
+"""Multiclass Classification class
 """
 import numpy as np
 import matplotlib.pyplot as plt
@@ -7,7 +7,7 @@ import pickle
 
 
 class DeepNeuralNetwork:
-    """Defines a Deep Neural Network performing binary classification
+    """Defines a Deep Neural Network performing multiclass classification
     """
     def __init__(self, nx, layers, activation='sig'):
         """Class constructor
@@ -18,11 +18,12 @@ class DeepNeuralNetwork:
             activation (str, optional): activation used in the hidden layer.
                 Defaults to 'sig'.
         """
-
+        # checks for type and value errors for nx
         if type(nx) is not int:
             raise TypeError("nx must be an integer")
         if nx < 1:
             raise ValueError("nx must be a positive integer")
+        # sets nx as a public class attribute
         self.nx = nx
         if type(layers) is not list or len(layers) == 0:
             raise TypeError("layers must be a list of positive integers")
@@ -56,16 +57,16 @@ class DeepNeuralNetwork:
             attribute weights and cache
 
         Args:
-            X (numpy.ndarray): shape(nx, m), containing the input data
-            Y (numpy.ndarray): shape(1, m), containing the correct label for
+            X (numpy.ndarray): shape(nx, m), contains the input data
+            Y (numpy.ndarray): shape(1, m), contains the correct label for
                 the input data
             iterations (int, optional): number of iterations to train over.
                 Defaults to 5000.
             alpha (float, optional): learning rate. Defaults to 0.05.
             verbose (bool, optional): defines if whether or not to print
-                information about the training. Defaults to True.
+                information during the training. Defaults to True.
             graph (bool, optional): defines whether or not to print information
-                about the training has completed. Defaults to True.
+                about the training once has completed. Defaults to True.
             step (int, optional): number of iteration between the print of
                 information when verbose is true. Defaults to 100.
 
@@ -100,7 +101,7 @@ class DeepNeuralNetwork:
                     print("Cost after {} iterations: {}".format(i, cost))
                 g_iteration.append(i)
                 g_cost.append(cost)
-
+            # i < iterations to avoid overshoot, see obsidian for information
             if i < iterations:
                 self.gradient_descent(Y, cache, alpha)
 
@@ -203,8 +204,7 @@ class DeepNeuralNetwork:
         return prediction, cost
 
     def cost(self, Y, A):
-        """Calculates the cost of the model using binary
-            cross-entropy loss function
+        """Calculates the cost of the model using loss function
 
         Args:
             Y (numpy.ndarray): shape(classes, m), one-hot data
@@ -222,7 +222,9 @@ class DeepNeuralNetwork:
 
     def forward_prop(self, X):
         """Calculates forward propagation of the neural network
-        using sigmoid activationn function
+        using sigmoid or hyperbolic tangent activationn function
+        for the hidden layers and softmax function for the output
+        layer
 
         Args:
             X (numpy.ndarray): shape(nx, m), contains the input data
@@ -237,22 +239,24 @@ class DeepNeuralNetwork:
         # hidden and output layer
         for i in range(self.__L):
             # keys to acces weights and bias and store them in the cache
-            key_w = 'W' + str(i + 1)  # key to get weight
+            key_w = 'W' + str(i + 1)  # key to get weights
             key_b = 'b' + str(i + 1)  # key to get bias
-            key_cache = 'A' + str(i + 1)  # key to set the network output
+            key_cache = 'A' + str(i + 1)  # key to set the activated output
             key_cache2 = 'A' + str(i)  # key to get the input of the layer
 
-            # calculate and store activations in cache
+            # calculate and store activations in attribute cache
             output_x = np.matmul(self.__weights[key_w], self.__cache[
                 key_cache2]) + self.__weights[key_b]
             if i == self.__L - 1:
                 # Softmax for the last layer
+                # allows to get probability distribution of possible outputs
                 t = np.exp(output_x)
                 output_a = np.exp(output_x) / np.sum(t, axis=0, keepdims=True)
             else:
-                # Sigmoid
+                # sigmoid activation
                 if self.__activation == 'sig':
                     output_a = 1 / (1 + np.exp(-output_x))
+                # hyperbolic tangent activation
                 elif self.__activation == 'tanh':
                     output_a = (np.exp(output_x) - np.exp(-output_x)) / (
                         np.exp(output_x) + np.exp(-output_x))
