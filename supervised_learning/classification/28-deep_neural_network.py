@@ -233,18 +233,18 @@ class DeepNeuralNetwork:
             The output of the neural network and the cache
         """
 
-        # input layer
+        # get input layer value
         self.__cache['A0'] = X
 
-        # hidden and output layer
+        # hidden and output layer 
         for i in range(self.__L):
-            # keys to acces weights and bias and store them in the cache
-            key_w = 'W' + str(i + 1)  # key to get weights
-            key_b = 'b' + str(i + 1)  # key to get bias
-            key_cache = 'A' + str(i + 1)  # key to set the activated output
-            key_cache2 = 'A' + str(i)  # key to get the input of the layer
+            # keys to acces weights and bias or store them in/from the cache
+            key_w = 'W' + str(i + 1)  # to get weights
+            key_b = 'b' + str(i + 1)  # to get bias
+            key_cache = 'A' + str(i + 1)  # to set the activated output
+            key_cache2 = 'A' + str(i)  # to get the input of the layer
 
-            # calculate and store activations in attribute cache
+            # calculates and stores activations in cache
             output_x = np.matmul(self.__weights[key_w], self.__cache[
                 key_cache2]) + self.__weights[key_b]
             if i == self.__L - 1:
@@ -253,10 +253,10 @@ class DeepNeuralNetwork:
                 t = np.exp(output_x)
                 output_a = np.exp(output_x) / np.sum(t, axis=0, keepdims=True)
             else:
-                # sigmoid activation
+                # sigmoid (sig) activation
                 if self.__activation == 'sig':
                     output_a = 1 / (1 + np.exp(-output_x))
-                # hyperbolic tangent activation
+                # hyperbolic tangent (tanh) activation
                 elif self.__activation == 'tanh':
                     output_a = (np.exp(output_x) - np.exp(-output_x)) / (
                         np.exp(output_x) + np.exp(-output_x))
