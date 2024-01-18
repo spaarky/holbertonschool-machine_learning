@@ -39,7 +39,6 @@ def create_layer(prev, n, activation):
 
     return layer(prev)
 
-
 def forward_prop(x, layer_sizes=[], activations=[]):
     """Function that creates the forward propagation graph for the input layer
 
@@ -190,30 +189,37 @@ def model(Data_train, Data_valid, layers, activations, alpha=0.001,
     :param save_path: the path where the model should be saved to
     :return: the path where the model was saved
     """
-    nx = Data_train[0].shape[1]
-    classes = Data_train[1].shape[1]
+    X_train = Data_train[0]
+    Y_train = Data_train[1]
+    X_valid = Data_valid[0]
+    Y_valid = Data_valid[1]
 
-    (X_train, Y_train) = Data_train
-    (X_valid, Y_valid) = Data_valid
-
-    x, y = create_placeholders(nx, classes)
-    tf.add_to_collection("x", x)
-    tf.add_to_collection("y", y)
+    x = tf.placeholder(tf.float32, shape=[None, X_train.shape[1]], name='x')
+    y = tf.placeholder(tf.float32, shape=[None, Y_train.shape[1]], name='y')
+    tf.add_to_collection('x', x)
+    tf.add_to_collection('y', y)
 
     y_pred = forward_prop(x, layers, activations)
-    tf.add_to_collection("y_pred", y_pred)
-
-    accuracy = calculate_accuracy(y, y_pred)
-    tf.add_to_collection("accuracy", accuracy)
+    tf.add_to_collection('y_pred', y_pred)
 
     loss = calculate_loss(y, y_pred)
-    tf.add_to_collection("loss", loss)
+    tf.add_to_collection('loss', loss)
 
-    global_step = tf.Variable(0)
-    alpha_d = learning_rate_decay(alpha, decay_rate, global_step, 1)
+    accuracy = calculate_accuracy(y, y_pred)
+    tf.add_to_collection('accuracy', accuracy)
 
-    train_op = create_Adam_op(loss, alpha_d, beta1, beta2, epsilon)
-    tf.add_to_collection("train_op", train_op)
+    global_step = tf.Variable(0, trainable=False)
+
+    decay_step = len(X_train) // batch_size
+    if len(X_train) % batch_size != 0:
+        decay_step += 1
+
+    alpha_decay = learning_rate_decay(alpha, decay_rate,
+                                      global_step, decay_step)
+
+    train_op = create_Adam_op(loss, alpha_decay, beta1,
+                              beta2, epsilon, global_step)
+    tf.add_to_collection('train_op', train_op)
 
     init = tf.global_variables_initializer()
     saver = tf.train.Saver()
@@ -221,51 +227,66 @@ def model(Data_train, Data_valid, layers, activations, alpha=0.001,
     with tf.Session() as sess:
         sess.run(init)
 
-        m = X_train.shape[0]
-        # mini batch definition
-        if m % batch_size == 0:
-            n_batches = m // batch_size
-        else:
-            n_batches = m // batch_size + 1
+        for i in range(epochs):
+            step = 1
+            training_cost = sess.run(
+                loss,
+                feed_dict={x: X_train, y: Y_train})
+            training_accuracy = sess.run(
+                accuracy,
+                feed_dict={x: X_train, y: Y_train})
+            validation_cost = sess.run(
+                loss,
+                feed_dict={x: X_valid, y: Y_valid})
+            validation_accuracy = sess.run(
+                accuracy,
+                feed_dict={x: X_valid, y: Y_valid})
 
-        # training loop
-        for i in range(epochs + 1):
-            cost_train = sess.run(loss, feed_dict={x: X_train, y: Y_train})
-            accuracy_train = sess.run(accuracy,
-                                      feed_dict={x: X_train, y: Y_train})
-            cost_val = sess.run(loss, feed_dict={x: X_valid, y: Y_valid})
-            accuracy_val = sess.run(accuracy,
-                                    feed_dict={x: X_valid, y: Y_valid})
-            print("After {} epochs:".format(i))
-            print("\tTraining Cost: {}".format(cost_train))
-            print("\tTraining Accuracy: {}".format(accuracy_train))
-            print("\tValidation Cost: {}".format(cost_val))
-            print("\tValidation Accuracy: {}".format(accuracy_val))
+            print(f"After {i} epochs:")
+            print(f"\tTraining Cost: {training_cost}")
+            print(f"\tTraining Accuracy: {training_accuracy}")
+            print(f"\tValidation Cost: {validation_cost}")
+            print(f"\tValidation Accuracy: {validation_accuracy}")
 
-            if i < epochs:
-                shuffled_X, shuffled_Y = shuffle_data(X_train, Y_train)
+            # shuffle data
+            shuffled_X, shuffled_Y = shuffle_data(X_train, Y_train)
 
-                # mini batches
-                for b in range(n_batches):
-                    start = b * batch_size
-                    end = (b + 1) * batch_size
-                    if end > m:
-                        end = m
-                    X_mini_batch = shuffled_X[start:end]
-                    Y_mini_batch = shuffled_Y[start:end]
+            for j in range(0, X_train.shape[0], batch_size):
+                X_batch = shuffled_X[j:j + batch_size, :]
+                Y_batch = shuffled_Y[j:j + batch_size, :]
 
-                    next_train = {x: X_mini_batch, y: Y_mini_batch}
-                    sess.run(train_op, feed_dict=next_train)
+                sess.run(train_op, feed_dict={x: X_batch, y: Y_batch})
 
-                    if (b + 1) % 100 == 0 and b != 0:
-                        loss_mini_batch = sess.run(loss, feed_dict=next_train)
-                        acc_mini_batch = sess.run(accuracy,
-                                                  feed_dict=next_train)
-                        print("\tStep {}:".format(b + 1))
-                        print("\t\tCost: {}".format(loss_mini_batch))
-                        print("\t\tAccuracy: {}".format(acc_mini_batch))
+                if step > 0 and step % 100 == 0:
+                    batch_cost = sess.run(
+                        loss,
+                        feed_dict={x: X_batch, y: Y_batch})
+                    batch_accuracy = sess.run(
+                        accuracy,
+                        feed_dict={x: X_batch, y: Y_batch})
+                    print(f"\tStep {step}:")
+                    print(f"\t\tCost: {batch_cost}")
+                    print(f"\t\tAccuracy: {batch_accuracy}")
+                step += 1
 
-            # Update of global step variable for each iteration
-            sess.run(tf.assign(global_step, global_step + 1))
+        training_cost = sess.run(
+            loss,
+            feed_dict={x: X_train, y: Y_train})
+        training_accuracy = sess.run(
+            accuracy,
+            feed_dict={x: X_train, y: Y_train})
+        validation_cost = sess.run(
+            loss,
+            feed_dict={x: X_valid, y: Y_valid})
+        validation_accuracy = sess.run(
+            accuracy,
+            feed_dict={x: X_valid, y: Y_valid})
 
-        return saver.save(sess, save_path)
+        print(f"After {epochs} epochs:")
+        print(f"\tTraining Cost: {training_cost}")
+        print(f"\tTraining Accuracy: {training_accuracy}")
+        print(f"\tValidation Cost: {validation_cost}")
+        print(f"\tValidation Accuracy: {validation_accuracy}")
+
+        save_path = saver.save(sess, save_path)
+    return save_path
