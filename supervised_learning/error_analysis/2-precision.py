@@ -1,4 +1,4 @@
-#!/usr/bon/env python3
+#!/usr/bin/env python3
 """_summary_
 """
 import numpy as np
@@ -13,7 +13,7 @@ def precision(confusion):
     Returns:
         (numpy.ndarray): precision matrix
     """
-    # precision formula: TP / (TP + FP)
+    # precision formula: TP / PP
     TP = np.diagonal(confusion)
     P = np.sum(confusion, axis=0)
     return TP / P
