@@ -17,8 +17,10 @@ def l2_reg_create_layer(prev, n, activation, lambtha):
     Returns:
         float: output of the new layer
     """
-    init = tf.contrib.layers.variance_scaling_initializer(mode="FAN_AVG")
-    reg = tf.contrib.layers.l2_regularizer(lambtha)
-    layer = tf.layers.Dense(n, activation=activation, kernel_initializer=init,
-                            name="layer", kernel_regularizer=reg)
+    init = tf.keras.initializers.VarianceScaling(scale=2.0, mode="fan_avg")
+    regu = tf.keras.regularizers.l2(lambtha)
+    layer = tf.layers.Dense(units=n, activation=activation,
+                            kernel_initializer=init,
+                            kernel_regularizer=regu,
+                            name="layer")
     return layer(prev)
