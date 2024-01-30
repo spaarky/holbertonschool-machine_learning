@@ -10,10 +10,13 @@ def build_model(nx, layers, activations, lambtha, keep_prob):
 
     Args:
         nx (integer): number of input features to the network
-        layers (list): list containing the number of nodes in each layer of the network
-        activations (list): list containing the activation functions used for each layer of the network
+        layers (list): list containing the number of nodes in each
+            layer of the network
+        activations (list): list containing the activation functions
+            used for each layer of the network
         lambtha (float): L2 regularization parameter
-        keep_prob (float): the probability that a node will be kept for dropout
+        keep_prob (float): the probability that a node will be kept
+            for dropout
 
     Returns:
         the keras model

@@ -20,7 +20,7 @@ def build_model(nx, layers, activations, lambtha, keep_prob):
         the keras model
     """
 
-    network = K.models.Sequencial()
+    network = K.models.Sequential()
     for i in range(len(layers)):
         if i == 0:
             network.add(K.layers.Dense(
