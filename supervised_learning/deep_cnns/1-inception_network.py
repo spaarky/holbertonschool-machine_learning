@@ -1,11 +1,16 @@
 #!/usr/bin/env python3
-
+"""_summary_
+"""
 import tensorflow.keras as K
 inception_block = __import__('0-inception_block').inception_block
 
 
 def inception_network():
-    """
+    """Builds the inception network as described in
+    Going Deeper with Convolutions (2014)
+
+    Returns:
+        Keras model
     """
     init = K.initializers.he_normal()
     X = K.Input(shape=(224, 224, 3))
@@ -20,11 +25,13 @@ def inception_network():
     # - Max Pool 3x3 + 2S
     # - Inception Block
     # - Inception Block
+    # - Max Pool 3x3 + 2S
     # - Inception Block
     # - Inception Block
     # - Inception Block
     # - Inception Block
     # - Inception Block
+    # - Max Pool 3x3 + 2S
     # - Inception Block
     # - Inception Block
     # - Average Pool 7x7 + 1V
