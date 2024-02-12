@@ -26,29 +26,38 @@ def densenet121(growth_rate=32, compression=1.0):
     max_pool1 = K.layers.MaxPooling2D(pool_size=3, strides=2)(conv1)
 
     # Dense block 1
-    dense_output_1, n_filters = dense_block(max_pool1, n_filters, growth_rate, 6)
+    dense_output_1, n_filters = dense_block(max_pool1, n_filters, growth_rate,
+                                            6)
 
     # Transition layer 1
-    transition_output_1, n_filters = transition_layer(dense_output_1, n_filters, compression)
+    transition_output_1, n_filters = transition_layer(dense_output_1,
+                                                      n_filters, compression)
 
     # Dense block 2
-    dense_output_2, n_filters = dense_block(transition_output_1, n_filters, growth_rate, 12)
+    dense_output_2, n_filters = dense_block(transition_output_1, n_filters,
+                                            growth_rate, 12)
 
     # Transition layer 2
-    transition_output_2, n_filters = transition_layer(dense_output_2, n_filters, compression)
+    transition_output_2, n_filters = transition_layer(dense_output_2,
+                                                      n_filters, compression)
 
     # Dense block 3
-    dense_output_3, n_filters = dense_block(transition_output_2, n_filters, growth_rate, 24)
+    dense_output_3, n_filters = dense_block(transition_output_2, n_filters,
+                                            growth_rate, 24)
 
     # Transition layer 3
-    transition_output_3, n_filters = transition_layer(dense_output_3, n_filters, compression)
+    transition_output_3, n_filters = transition_layer(dense_output_3,
+                                                      n_filters, compression)
 
     # Dense block 4
-    dense_output_4, n_filters = dense_block(transition_output_3, n_filters, growth_rate, 16)
+    dense_output_4, n_filters = dense_block(transition_output_3, n_filters,
+                                            growth_rate, 16)
 
-    avg_pool_1 = K.layers.AveragePooling2D(pool_size=7, strides=1, padding='valid')(dense_output_4)
+    avg_pool_1 = K.layers.AveragePooling2D(pool_size=7, strides=1,
+                                           padding='valid')(dense_output_4)
 
-    softmax = K.layers.Dense(units=1000, activation='softmax', kernel_initializer=init)(avg_pool_1)
+    softmax = K.layers.Dense(units=1000, activation='softmax',
+                             kernel_initializer=init)(avg_pool_1)
 
     model = K.Model(inputs=X, outputs=softmax)
 
