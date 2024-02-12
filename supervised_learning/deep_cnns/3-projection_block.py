@@ -22,24 +22,24 @@ def projection_block(A_prev, filters, s=2):
     F11, F3, F12 = filters
 
     # first layer
-    conv0 = K.layers.Conv2D(F11, kernel_size=1, padding='same',
+    conv0 = K.layers.Conv2D(F11, kernel_size=1, padding='same', strides=s,
                             kernel_initializer=init)(A_prev)
     norm0 = K.layers.BatchNormalization()(conv0)
     act0 = K.layers.Activation('relu')(norm0)
 
     # second layer
-    conv1 = K.layers.Conv2D(F3, kernel_size=3, padding='same',
+    conv1 = K.layers.Conv2D(F3, kernel_size=3, padding='same', strides=1,
                             kernel_initializer=init)(act0)
     norm1 = K.layers.BatchNormalization()(conv1)
     act1 = K.layers.Activation('relu')(norm1)
 
     # third layer
-    conv2 = K.layers.Conv2D(F12, kernel_size=1, padding='same',
+    conv2 = K.layers.Conv2D(F12, kernel_size=1, padding='same', strides=1,
                             kernel_initializer=init)(act1)
     norm2 = K.layers.BatchNormalization()(conv2)
 
     # shortcut
-    shortcut = K.layers.Conv2D(F12, kernel_size=1, padding='same',
+    shortcut = K.layers.Conv2D(F12, kernel_size=1, padding='same', strides=s,
                                kernel_initializer=init)(A_prev)
     shortcut = K.layers.BatchNormalization()(shortcut)
     X = K.layers.Add()([norm2, shortcut])
