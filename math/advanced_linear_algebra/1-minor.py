@@ -2,6 +2,7 @@
 """_summary_
 """
 
+
 def determinant(matrix):
     """calculates the determinant of a matrix
 
@@ -23,11 +24,9 @@ def determinant(matrix):
     if len(matrix) == 1 and len(matrix[0]) == 1:
         return matrix[0][0]
 
-
     # recursive case: determinant of a 2x2 matrix
     if len(matrix) == 2 and len(matrix[0]) == 2:
         return matrix[0][0]*matrix[1][1] - matrix[0][1]*matrix[1][0]
-
 
     # 3x3 matrix using recursion
     first_row = matrix[0]

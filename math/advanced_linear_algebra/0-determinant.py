@@ -2,6 +2,7 @@
 """_summary_
 """
 
+
 def determinant(matrix):
     """calculates the determinant of a matrix
 
