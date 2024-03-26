@@ -10,7 +10,8 @@ def marginal(x, n, P, Pr):
     Args:
         x (integer): number of patients that develop severe side effects
         n (integer): total number of patients observed
-        P (numpy.ndarray): containing the various hypothetical probabilities of developing severe side effects
+        P (numpy.ndarray): containing the various hypothetical probabilities
+            of developing severe side effects
         Pr (numpy.ndarray): containing the prior beliefs of P
 
     Returns:

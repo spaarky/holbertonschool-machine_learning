@@ -5,16 +5,19 @@ import numpy as np
 
 
 def intersection(x, n, P, Pr):
-    """calculates the intersection of obtaining this data with the various hypothetical probabilities
+    """calculates the intersection of obtaining this data with the various
+        hypothetical probabilities
 
     Args:
         x (integer): number of patients that develop severe side effects
         n (integer): total number of patients observed
-        P (numpy.ndarray): containing the various hypothetical probabilities of developing severe side effects
+        P (numpy.ndarray): containing the various hypothetical probabilities
+            of developing severe side effects
         Pr (numpy.ndarray): containing the prior beliefs of P
 
     Returns:
-        numpy.ndarray: containing the intersection of obtaining x and n with each probability in P, respectively
+        numpy.ndarray: containing the intersection of obtaining x and n with
+            each probability in P, respectively
     """
     if (type(n) is not int) or (n <= 0):
         raise ValueError("n must be a positive integer")
