@@ -69,10 +69,10 @@ def BIC(X, kmin=1, kmax=None, iterations=1000, tol=1e-5, verbose=False):
         all_Ss.append(S)
         all_likelihoods.append(log_likelihood)
 
-        # p is the number of parameters required for the model
+        # p is the number of parameters required the model
         p = (k * d * (d + 1) / 2) + (d * k) + (k - 1)
 
-        # b: array containing the BIC value for each cluster size tested
+        # b: array containing the BIC value each cluster size tested
         b = p * np.log(n) - 2 * log_likelihood
         all_BICs.append(b)
 
