@@ -66,9 +66,9 @@ def BIC(X, kmin=1, kmax=None, iterations=1000, tol=1e-5, verbose=False):
         all_ms.append(m)
         all_Ss.append(S)
         all_lkhds.append(lkhd)
-        # p is the number of parameters required for the model
+        # p is the number of parameters required f the model
         p = (k * d * (d + 1) / 2) + (d * k) + (k - 1)
-        # b is the array containing the BIC value for each cluster size tested
+        # b is the array containing the BIC value f each cluster size tested
         b = p * np.log(n) - 2 * lkhd
         all_bs.append(b)
 
