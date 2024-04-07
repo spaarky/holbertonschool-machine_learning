@@ -5,15 +5,19 @@ import numpy as np
 
 
 def markov_chain(P, s, t=1):
-    """Determines the probability of a markov chain being in a particular state after a specified number of iterations
+    """Determines the probability of a markov chain being in a particular
+        state after a specified number of iterations
 
     Args:
         P (numpy.ndarray): shape (n, n) representing the transition matrix
-        s (numpy.ndarray): shape (1, n) representing the probability of starting in each state
-        t (integer, optional): number of iterations that the markov chain has been through. Defaults to 1.
+        s (numpy.ndarray): shape (1, n) representing the probability of
+            starting in each state
+        t (integer, optional): number of iterations that the markov chain
+            has been through. Defaults to 1.
 
     Returns:
-        numpy.ndarray: shape (1, n) representing the probability of being in a specific state after t iterations, or None on failure
+        numpy.ndarray: shape (1, n) representing the probability of being in
+            a specific state after t iterations, or None on failure
     """
     # Check errors
     if type(P) is not np.ndarray:

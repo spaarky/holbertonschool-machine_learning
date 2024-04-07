@@ -11,7 +11,8 @@ def regular(P):
         P (numpy.ndarray): shape (n, n) representing the transition matrix
 
     Returns:
-        numpy.ndarray: shape (1, n) containing the steady state probabilities, or None on failure
+        numpy.ndarray: shape (1, n) containing the steady state probabilities,
+            or None on failure
     """
 
     if type(P) is not np.ndarray:
