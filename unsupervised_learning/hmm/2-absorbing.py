@@ -8,7 +8,8 @@ def absorbing(P):
     """determines if a markov chain is absorbing
 
     Args:
-        P (numpy.ndarray): shape (n, n) representing the standard transition matrix
+        P (numpy.ndarray): shape (n, n) representing the standard
+            transition matrix
 
     Returns:
         bool: True if it is absorbing, False if it is not
