@@ -121,4 +121,3 @@ def baum_welch(Observations, Transition, Emission, Initial, iterations=1000):
         b = np.divide(b, denominator.reshape((-1, 1)))
 
     return a, b
-
