@@ -5,7 +5,7 @@ import tensorflow.keras as keras
 
 
 def autoencoder(input_dims, hidden_layers, latent_dims):
-    """_summary_
+    """summary
 
     Args:
         input_dims (_type_): _description_
@@ -15,10 +15,12 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
     input_encoder = keras.Input(shape=(input_dims, ))
     input_decoder = keras.Input(shape=(latent_dims, ))
 
-    encoded = keras.layers.Dense(hidden_layers[0], activation='relu')(input_encoder)
+    encoded = keras.layers.Dense(hidden_layers[0],
+                                 activation='relu')(input_encoder)
 
     for enc in range(1, len(hidden_layers)):
-        encoded = keras.layers.Dense(hidden_layers[enc], activation='relu')(encoded)
+        encoded = keras.layers.Dense(hidden_layers[enc],
+                                     activation='relu')(encoded)
 
     # Latent layer
     latent = keras.layers.Dense(latent_dims, activation='relu')(encoded)
