@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
-"""Summary
-"""
+"""summary"""
+
 import tensorflow.keras as keras
 
 
 def autoencoder(input_dims, hidden_layers, latent_dims):
-    """summary
-    """
+    """summary"""
     input_encoder = keras.layers.Input(shape=(input_dims,))
     output_encoder = input_encoder
     for units in hidden_layers:
