@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-""" Creates a bag of words embedding matrix """
+""" Summary """
 import numpy as np
 import re
 
@@ -8,13 +8,13 @@ def bag_of_words(sentences, vocab=None):
     if not isinstance(sentences, list):
         raise TypeError("sentences should be a list.")
 
-    preprocessed = []
+    preprocessed_sentences = []
     for sentence in sentences:
-        sentences = re.sub(r"\b(\w+)'s\b", r"\1", sentence.lower())
-        preprocessed.append(sentences)
+        preprocessed_sentence = re.sub(r"\b(\w+)'s\b", r"\1", sentence.lower())
+        preprocessed_sentences.append(preprocessed_sentence)
 
     list_words = []
-    for sentence in preprocessed:
+    for sentence in preprocessed_sentences:
         words = re.findall(r'\w+', sentence)
         list_words.extend(words)
 
