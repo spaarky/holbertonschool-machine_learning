@@ -5,20 +5,29 @@ import re
 
 def bag_of_words(sentences, vocab=None):
     """Summary"""
-    tokenized = [re.findall(r'\b\w+\b', sentence.lower()) for sentence in sentences]
+    if not isinstance(sentences, list):
+        raise TypeError("sentences should be a list.")
+
+    preprocessed = []
+    for sentence in sentences:
+        sentences = re.sub(r"\b(\w+)'s\b", r"\1", sentence.lower())
+        preprocessed.append(sentences)
+
+    list_words = []
+    for sentence in preprocessed:
+        words = re.findall(r'\w+', sentence)
+        list_words.extend(words)
 
     if vocab is None:
-        vocab = sorted(set(word for sentence in tokenized for word in sentence))
-
-    word_to_index = {word: idx for idx, word in enumerate(vocab)}
+        vocab = sorted(set(list_words))
 
     embeddings = np.zeros((len(sentences), len(vocab)), dtype=int)
-
-    for i, sentence in enumerate(tokenized):
-        for word in sentence:
-            if word in word_to_index:
-                embeddings[i, word_to_index[word]] += 1
-
     features = vocab
+
+    for i, sentence in enumerate(sentences):
+        words = re.findall(r'\w+', sentence.lower())
+        for word in words:
+            if word in vocab:
+                embeddings[i, vocab.index(word)] += 1
 
     return embeddings, features
