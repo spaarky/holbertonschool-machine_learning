@@ -3,6 +3,7 @@
 import numpy as np
 import re
 
+
 def bag_of_words(sentences, vocab=None):
     """Summary"""
     if not isinstance(sentences, list):
