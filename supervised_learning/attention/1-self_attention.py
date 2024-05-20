@@ -7,7 +7,7 @@ class SelfAttention(tf.keras.layers.Layer):
     """Summary"""
     def __init__(self, units):
         """Summary"""
-        super(SelfAttention, self).__init__()
+        super().__init__()
         self.W = tf.keras.layers.Dense(units)
         self.U = tf.keras.layers.Dense(units)
         self.V = tf.keras.layers.Dense(1)
