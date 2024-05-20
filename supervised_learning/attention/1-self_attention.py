@@ -7,7 +7,7 @@ class SelfAttention(tf.keras.layers.Layer):
     """Summary"""
     def __init__(self, units):
         """Summary"""
-        super().__init__()
+        super(SelfAttention, self).__init__()
         self.W = tf.keras.layers.Dense(units)
         self.U = tf.keras.layers.Dense(units)
         self.V = tf.keras.layers.Dense(1)
@@ -15,9 +15,7 @@ class SelfAttention(tf.keras.layers.Layer):
     def call(self, s_prev, hidden_states):
         """Summary"""
         s_expanded = tf.expand_dims(s_prev, 1)
-        inputs = self.U(s_expanded)
-        hidden = self.W(hidden_states)
-        score = self.V(tf.nn.tanh(inputs + hidden))
+        score = self.V(tf.nn.tanh(self.W(s_prev) + self.U(hidden_states)))
 
         attention_weights = tf.nn.softmax(score, axis=1)
         context_vector = attention_weights * s_expanded
