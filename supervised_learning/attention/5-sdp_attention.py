@@ -17,7 +17,7 @@ def sdp_attention(Q, K, V, mask=None):
 
     scaled_attention_logits = matmul_qk / tf.math.sqrt(keys_dim)
 
-    if mask is not none:
+    if mask is not None:
         scaled_attention_logits += (mask * -1e9)
 
     weights = tf.nn.softmax(scaled_attention_logits, axis=-1)
