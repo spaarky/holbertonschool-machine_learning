@@ -27,17 +27,23 @@ class MultiHeadAttention(tf.keras.layers.Layer):
         """Summary"""
         batch_size = tf.shape(Q)[0]
 
-        Q = self.Wq(Q)
-        K = self.Wk(K)
-        V = self.Wv(V)
+        q = self.Wq(Q)
+        k = self.Wk(K)
+        v = self.Wv(V)
 
-        Q = self.split_heads(Q, batch_size)
-        K = self.split_heads(K, batch_size)
-        V = self.split_heads(V, batch_size)
+        q = self.split_heads(q, batch_size)
+        k = self.split_heads(k, batch_size)
+        v = self.split_heads(v, batch_size)
 
-        output, weights = sdp_attention(Q, K, V, mask)
+        scaled_attention, attention_weights = sdp_attention(q, k, v, mask)
 
-        output = tf.transpose(output, perm=[0, 2, 1, 3])
-        output = tf.reshape(output, (batch_size, -1, self.dm))
+        scaled_attention = tf.transpose(scaled_attention, perm=[0, 2, 1,
+                                                                3])
 
-        return self.linear(output)
+        concat_attention = tf.reshape(scaled_attention,
+                                      (batch_size, -1,
+                                       self.dm))
+
+        output = self.linear(concat_attention)
+
+        return output, attention_weights
