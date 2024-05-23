@@ -21,26 +21,19 @@ class DecoderBlock(tf.keras.layers.Layer):
 
     def call(self, x, encoder_output, training, look_ahead_mask, padding_mask):
         """Summary"""
-        Q = K = V = x
+        attn1, _ = self.mha1(x, x, x, look_ahead_mask)
+        attn1 = self.dropout1(attn1, training=training)
+        out1 = self.layernorm1(attn1 + x)
 
-        output_att1, _ = self.mha1(Q, K, V, mask=look_ahead_mask)
+        attn2, _ = self.mha2(out1, encoder_output, encoder_output,
+                             padding_mask)
+        attn2 = self.dropout2(attn2, training=training)
+        out2 = self.layernorm2(attn2 + out1)
 
-        x_drop1 = self.dropout1(output_att1, training=training)
-        x = x + x_drop1
-        x_norm1 = self.layernorm1(x)
+        hidden = self.dense_hidden(out2)
+        dense_output = self.dense_output(hidden)
 
-        output_att2, _ = self.mha2(x_norm1,
-                                              encoder_output,
-                                              encoder_output,
-                                              mask=padding_mask)
-        x_drop2 = self.dropout2(output_att2, training=training)
-        x = x_norm1 + x_drop2
-        x_norm2 = self.layernorm2(x)
-
-        hidden = self.dense_hidden(x_norm2)
-        out = self.dense_output(hidden)
-        x_drop3 = self.dropout3(out, training=training)
-        x = x_norm2 + x_drop3
-        output = self.layernorm3(x)
+        attn3 = self.dropout3(dense_output, training=training)
+        output = self.layernorm3(attn3 + out2)
 
         return output
