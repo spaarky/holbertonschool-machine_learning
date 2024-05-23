@@ -34,6 +34,6 @@ class DecoderBlock(tf.keras.layers.Layer):
         dense_output = self.dense_output(hidden)
 
         attn3 = self.dropout3(dense_output, training=training)
-        out3 = self.layernorm3(attn3 + out2)
+        output = self.layernorm3(attn3 + out2)
 
-        return out3
+        return output
