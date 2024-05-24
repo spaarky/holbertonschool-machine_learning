@@ -4,12 +4,12 @@ import tensorflow as tf
 MultiHeadAttention = __import__('6-multihead_attention').MultiHeadAttention
 
 
-class DecoderBlock(tf.keras.layers.Layer):
+class EncoderBlock(tf.keras.layers.Layer):
     """Summary"""
 
     def __init__(self, dm, h, hidden, drop_rate=0.1):
         """Summary"""
-        super(DecoderBlock, self).__init__()
+        super(EncoderBlock, self).__init__()
         self.mha = MultiHeadAttention(dm, h)
         self.dense_hidden = tf.keras.layers.Dense(hidden, activation='relu')
         self.dense_output = tf.keras.layers.Dense(dm)
