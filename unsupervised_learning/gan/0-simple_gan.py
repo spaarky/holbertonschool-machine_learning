@@ -81,4 +81,4 @@ class Simple_GAN(keras.Model) :
         # apply gradient descent to the discriminator
         gen_gradient = tape.gradient(gen_loss, self.generator.trainable_variables)
 
-        return {"discr_loss": discr_loss, "gen_loss": gen_loss}
+        return {"disc_loss": disc_loss, "gen_loss": gen_loss}
