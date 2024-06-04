@@ -23,7 +23,7 @@ class WGAN_clip(keras.Model):
         self.discriminator = discriminator
         self.batch_size = batch_size
         self.disc_iter = disc_iter
-        self.clip_const = 1.0  # standard value but can be changed if necessary
+        self.clip_const = 1.0
 
         self.learning_rate = learning_rate
         self.beta_1 = .5  # standard value, but can be changed if necessary
@@ -96,7 +96,8 @@ class WGAN_clip(keras.Model):
             fake_output = self.discriminator(fake_samples, training=False)
             gen_loss = self.generator.loss(fake_output)
 
-        gradients = tape.gradient(gen_loss, self.generator.trainable_variables)
+        gradients = tape.gradient(
+            gen_loss, self.generator.trainable_variables)
         self.generator.optimizer.apply_gradients(
             zip(gradients, self.generator.trainable_variables))
 
