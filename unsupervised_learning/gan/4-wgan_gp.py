@@ -87,7 +87,6 @@ class WGAN_GP(keras.Model):
 
         return tf.reduce_mean((norm - 1.0) ** 2)
 
-
     def train_step(self, useless_argument):
         """Summary"""
         for _ in range(self.disc_iter):
