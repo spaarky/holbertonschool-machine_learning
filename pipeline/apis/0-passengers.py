@@ -5,19 +5,20 @@ import requests
 
 def availableShips(passengerCount):
     """Summary"""
-    url = "https://swapi-api.hbtn.io/api/starships/"
+    url = "https://swapi-api.hbtn.io/api/starships"
     r = requests.get(url)
-    json = r.json()
-    results = json["results"]
-    ships = []
-    while json["next"]:
-        for res in results:
-            if res["passengers"] == 'n/a' or res["passengers"] == 'unknown':
-                continue
-            if int(res["passengers"].replace(',', '')) >= passengerCount:
-                ships.append(res["name"])
-        url = json["next"]
-        r = requests.get(url)
-        json = r.json()
-        results = json["results"]
-    return ships
+    ship_list = []
+    while r.status_code == 200:
+        for ship in r.json()["results"]:
+            if ship["passengers"] is not None:
+                try:
+                    num = ship["passengers"].replace(",", "")
+                    if int(num) >= passengerCount:
+                        ship_list.append(ship["name"])
+                except ValueError:
+                    pass
+        try:
+            r = requests.get(r.json()["next"])
+        except Exception:
+            break
+    return ship_list
