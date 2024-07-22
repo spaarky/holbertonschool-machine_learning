@@ -8,12 +8,11 @@ def availableShips(passengerCount):
     url = "https://swapi-api.hbtn.io/api/starships/"
     r = requests.get(url)
     json = r.json()
-    result = json['results']
+    results = json["results"]
     ships = []
-
     while json["next"]:
-        for res in result:
-            if res["passengers"] == "n/a" or res["passengers"] == "unknown":
+        for res in results:
+            if res["passengers"] == 'n/a' or res["passengers"] == 'unknown':
                 continue
             if int(res["passengers"].replace(',', '')) >= passengerCount:
                 ships.append(res["name"])
