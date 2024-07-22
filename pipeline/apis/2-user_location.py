@@ -2,24 +2,21 @@
 """Summary"""
 import requests
 import sys
-import time
+from datetime import datetime
 
 
 if __name__ == '__main__':
-    if len(sys.argv) != 2:
-        exit()
+    """Summary"""
     url = sys.argv[1]
-    headers = {'Accept': 'application/vnd.github.v3+json'}
-    r = requests.get(url, headers=headers)
+    response = requests.get(url)
 
-    if r.status_code == 200:
-        print(r.json()['location'])
-
-    if r.status_code == 404:
+    if response.status_code == 404:
         print("Not found")
-
-    if r.status_code == 403:
-        rate_limit = int(r.headers['X-Ratelimit-Reset'])
-        now = int(time.time())
-        minutes = int((rate_limit - now) / 60)
-        print("Reset in {} min".format(minutes))
+    elif response.status_code == 403:
+        string = 'X-Ratelimit-Reset'
+        date = datetime.fromtimestamp(int(response.headers[string]))
+        min = str((date - datetime.now())).split(':')[1]
+        min = int(min)
+        print("Reset in {} min".format(min))
+    else:
+        print(response.json()["location"])
