@@ -1,3 +1,4 @@
+-- comment
 DROP TRIGGER IF EXISTS reset_validation;
 
 DELIMITER $$

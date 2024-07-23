@@ -1,3 +1,4 @@
+-- comment
 CREATE TRIGGER UpdateItems
 AFTER INSERT ON orders
 FOR EACH ROW
