@@ -1,27 +1,38 @@
 #!/usr/bin/env python3
+"""
+    Initialize Yolo
+"""
+import tensorflow as tf
 
-"""YOLO Object Detection"""
-import tensorflow.Keras as K
 
-
-class Yolo():
-    """YOLO Object Detection"""
+class Yolo:
+    """
+        Class Yolo uses the Yolo v3 algorithm to perform object detection
+    """
 
     def __init__(self, model_path, classes_path, class_t, nms_t, anchors):
-        """Constructor
-
-        Args:
-            model_path (string): path to where a Darknet Keras model is stored
-            classes_path (string): path to where the list of class names used
-                for the Darknet model, listed in order of index, can be found
-            class_t (float): represent the box score threshold for the initial
-                filtering step
-            nms_t (float): represent the IOU threshold for non-max suppression
-            anchors (numpy.ndarray): contains all of the anchor boxes
         """
-        self.model = K.models.load_model(model_path)
+            Class constructor of Yolo class
+
+            :param model_path: path where Darknet Keras model is stored
+            :param classes_path:path where list of class names,
+            in order of index
+            :param class_t: float, box score threshold for initial
+             filtering step
+            :param nms_t: float, IOU threshold for non-max suppression
+            :param anchors: ndarray, shape(outputs, anchor_boxes, 2)
+                    all anchor boxes
+                outputs: number of outputs (prediction) made by Darknet model
+                anchor_boxes: number of anchor boxes used for each prediction
+                2: [anchor_box_width, anchor_box_height]
+
+        """
+        self.model = tf.keras.models.load_model(model_path)
+        self.class_names = []
         with open(classes_path, 'r') as f:
-            self.class_names = [line.strip() for line in f]
+            for line in f:
+                line = line.strip()
+                self.class_names.append(line)
         self.class_t = class_t
         self.nms_t = nms_t
         self.anchors = anchors
